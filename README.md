@@ -1,37 +1,39 @@
-# Stock Sense 📊
+# Stock Sense
 
-**Stock Sense** is a machine learning-powered sales forecasting dashboard that uses ARIMA, Prophet, LSTM, and Ensemble models to predict sales and suggest inventory reorder points. Built with Python and Streamlit, it provides a clean UI for visualization and analysis.
-
----
-
-## 🔧 Features
-
-- Clean and interactive **Streamlit** dashboard
-- Time series forecasting using:
-  - **ARIMA**
-  - **Facebook Prophet**
-  - **LSTM**
-  - **Ensemble (ARIMA + Prophet)**
-- Evaluation Metrics: MAE, RMSE, MAPE
-- Inventory reorder point recommendation
-- Upload your own sales data via `.csv` or `.xlsx`
+Stock Sense is a lightweight, AI-powered inventory forecasting app that helps you predict sales and determine optimal reorder points using time series models like ARIMA, Prophet, and LSTM. Built with Streamlit for easy deployment.
 
 ---
 
-## 🚀 Getting Started
+## Features
+
+- Upload your own sales data in CSV or Excel format.
+- Forecast sales using ARIMA, Prophet, and LSTM models.
+- Visualize forecasts and evaluate model accuracy.
+- Get intelligent reorder point suggestions based on lead time.
+- Easy-to-use Streamlit interface for quick testing and demos.
+
+---
+
+## Live Demo
+
+> Coming soon...
+
+---
+
+## How to Run Locally
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/jeshurun008/stock_sense_v1.git
-cd stock_sense_v1
+git clone https://github.com/jeshurun008/stock-sense.git
+cd stock-sense
 ```
 
-### 2. Setup Virtual Environment
+### 2. Create and Activate Virtual Environment
 
 ```bash
 python -m venv .venv
-.venv\Scripts\activate  # On Windows
+.venv\Scripts\activate
 ```
 
 ### 3. Install Dependencies
@@ -40,41 +42,85 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-> 💡 If Prophet fails to install, install `Cython` first:
+> Note: If you face errors related to `prophet`, install the pre-requirements first:
+
 ```bash
+pip install --upgrade pip setuptools wheel
 pip install Cython
+```
+
+### 4. Enable `cmdstanpy` for Prophet (Windows Only)
+
+If Prophet fails with Stan backend errors, run the following steps:
+
+- Open `cmd` and type:
+
+```bash
+gpedit.msc
+```
+
+- Navigate to:
+
+```
+Computer Configuration > Administrative Templates > System > Specify settings for optional component installation
+```
+
+- Enable it, then run:
+
+```bash
+pip install prophet
 ```
 
 ---
 
-## 🧠 Running the App
+## Run the App
 
 ```bash
 streamlit run app/app.py
 ```
 
-Once running, open `http://localhost:8501` in your browser.
+---
+
+## Data Format
+
+Your CSV/Excel file must contain two columns:
+
+| date                | sales |
+|---------------------|-------|
+| 2025-08-05 21:15:12 | 100   |
+| 2025-08-06 21:15:12 | 95    |
+| ...                 | ...   |
+
+- `date`: timestamp or date string
+- `sales`: numeric sales data
+
+You can test with the default dummy dataset if no file is uploaded.
 
 ---
 
-## 🗂 How to Use
+## Customizing the Model
 
-- The app loads sample/mock sales data by default.
-- Use the sidebar to upload your own `.csv` or `.xlsx` file.
-- Your file should contain two columns: `date` and `sales`.
-- Once uploaded, the models will re-run with your data.
+All the backend logic resides in `test_pipeline.py`. You can modify:
+
+- Data cleaning
+- Feature engineering
+- Models used
+- Evaluation metrics
+- Inventory logic
+
+This gives you full flexibility to play with different forecasting strategies.
 
 ---
 
-## 📁 File Structure
+## Folder Structure
 
 ```
-stock_sense_v1/
+stock_sense/
 │
-├── app/                  # Streamlit UI
+├── app/                    # Streamlit UI
 │   └── app.py
 │
-├── src/                  # Source code
+├── src/                    # Core logic
 │   ├── preprocessing.py
 │   ├── feature_engineering.py
 │   ├── evaluation.py
@@ -85,32 +131,14 @@ stock_sense_v1/
 │       ├── lstm_model.py
 │       └── ensemble.py
 │
-├── test_pipeline.py      # Pipeline script (core logic)
+├── input/                  # Optional user CSVs/XLSX files
+├── test_pipeline.py        # Model orchestration logic
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## ⚙️ For Windows Users
+## License
 
-If you face errors running `prophet`, enable long paths in Windows Registry:
-
-1. Press `Win + R`, type `regedit`, press Enter.
-2. Navigate to:  
-   `Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`
-3. Find key `LongPathsEnabled` → Set value to `1`
-4. Restart your PC.
-
----
-
-## 👤 Author
-
-**Jeshurun Pearl Daniel**  
-GitHub: [@jeshurun008](https://github.com/jeshurun008)
-
----
-
-## 📜 License
-
-MIT License
+MIT © Jeshurun008
